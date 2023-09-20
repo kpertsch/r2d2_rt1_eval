@@ -13,6 +13,7 @@ from r2d2.user_interface.gui import RobotGUI
 CHECKPOINT_PATH = 'PATHTOCKPT/001008560/'
 GOAL_PATH = 'PATHTOGOAL'
 
+
 def resize(image):
     image = tf.image.resize_with_pad(image, target_width=320, target_height=256)
     image = tf.cast(image, tf.uint8)
@@ -48,9 +49,9 @@ class RT1Policy:
         observation['goal_image1'] = self._goal_images[1]
 
         observation['image'] = resize(tf.convert_to_tensor(
-            observation['image']['16291792_left'][:, :, :3].copy()))
+            observation['image']['16291792_left'][:, :, :3].copy()[..., ::-1]))
         observation['image1'] = resize(tf.convert_to_tensor(
-            observation['image']['16291792_right'][:, :, :3].copy()))
+            observation['image']['16291792_right'][:, :, :3].copy()[..., ::-1]))
 
         tfa_time_step = ts.transition(observation, reward=np.zeros((), dtype=np.float32))
 
